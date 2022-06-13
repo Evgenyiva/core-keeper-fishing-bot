@@ -2,12 +2,14 @@ class ColorTrigger:
     r: int = 0
     g: int = 0
     b: int = 0
+    a: int = 0
     percentage: int = 0
 
-    def __init__(self, red: int = 0, green: int = 0, blue: int = 0, percentage: int = 0):
+    def __init__(self, red: int = 0, green: int = 0, blue: int = 0, alpha: int = 0, percentage: int = 0):
         self.r: int = red
         self.g: int = green
         self.b: int = blue
+        self.a: int = alpha
         self.percentage: int = percentage
 
     def getMin(self, color):

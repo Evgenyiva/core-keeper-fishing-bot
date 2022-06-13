@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
-from PIL import Image, ImageTk
-from PIL import ImageGrab as Grabber
+from PIL import Image, ImageTk, ImageGrab
 from pyautogui import *
 
 from constants import *
@@ -11,7 +10,7 @@ from model.ViewArea import ViewArea
 class ScreenCaptureController(object):
     def __init__(self, view):
         self._view = view
-        self._picture = Grabber.grab().load()
+        self._picture = ImageGrab.grab().load()
         self._viewAreas = {}
 
     def addViewArea(self, viewArea: ViewArea):
@@ -30,7 +29,10 @@ class ScreenCaptureController(object):
 
             Iterates through _viewArea dictionary and refreshes preview image
         """
-        self._picture = Grabber.grab().load()
+        image = ImageGrab.grab()
+        image.convert('RGB')
+
+        self._picture = image.load()
 
         for key, item in self._viewAreas.items():
             self._refreshViewArray(item)
@@ -44,7 +46,7 @@ class ScreenCaptureController(object):
 
             :param viewArea:
         """
-        viewData = np.zeros((viewArea.height, viewArea.width, 3), dtype=np.uint8)
+        viewData = np.zeros((viewArea.height, viewArea.width, 4), dtype=np.uint8)
 
         for posX in range(viewArea.width):
             for posY in range(viewArea.height):
@@ -92,10 +94,8 @@ class ScreenCaptureController(object):
         x, y = position()
         positionStr = "X: {} Y: {} - ".format(str(x - xOffset).rjust(4), str(y - yOffset).rjust(4))
 
-        if not onScreen(x - xOffset, y - yOffset) or sys.platform == "darwin":
-            return
-        else:
-            pixelColor = pyscreeze.screenshot().getpixel((x, y))
+        pixelColor = pyscreeze.screenshot().getpixel((x, y))
+
         colorStr = "RGB: ({}, {}, {})".format(str(pixelColor[0]).rjust(3),
                                               str(pixelColor[1]).rjust(3),
                                               str(pixelColor[2]).rjust(3))

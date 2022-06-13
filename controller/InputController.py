@@ -1,7 +1,6 @@
 import time
-import win32api
-import win32con
 import keyboard
+import pyautogui
 
 
 class InputController(object):
@@ -16,7 +15,7 @@ class InputController(object):
             Press 'button' for 'duration' seconds.
         """
         if x is not None and y is not None:
-            win32api.SetCursorPos((x, y))
+            pyautogui.moveTo(x, y)
 
         if button == 'right':
             self.rightMouseDown()
@@ -46,28 +45,28 @@ class InputController(object):
         """
             Press right mouse button
         """
-        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
+        pyautogui.mouseDown(button='right')
 
     @staticmethod
     def rightMouseUp():
         """
             Release right mouse button
         """
-        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
+        pyautogui.mouseUp(button='right')
 
     @staticmethod
     def leftMouseDown():
         """
             Press left mouse button
         """
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
+        pyautogui.mouseDown()
 
     @staticmethod
     def leftMouseUp():
         """
             Release left mouse button
         """
-        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
+        pyautogui.mouseUp()
 
     @staticmethod
     def pressF():
